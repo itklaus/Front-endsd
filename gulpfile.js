@@ -7,7 +7,7 @@ const pug = require('gulp-pug');
 gulp.task('es6', () => {
   return gulp.src('src/js/es6.js')
     .pipe(babel())
-    .pipe(rename('../dest/js/master.js'))
+    .pipe(rename('../dist/js/master.js'))
     .pipe(gulp.dest('src'));
 });
 
@@ -16,17 +16,17 @@ gulp.task('pug', () => {
   .pipe(pug({
     pretty: true
   }))
-  .pipe(gulp.dest('dest/'))
+  .pipe(gulp.dest('dist/'))
 });
 
 gulp.task('default', ['es6', 'pug'], () => {
   browserSync.init({
     server: {
-      baseDir: 'dest'
+      baseDir: 'dist'
     },
     notify: false
   });
   gulp.watch('src/**/*.js', ['es6']);
   gulp.watch("src/*.pug", ['pug']);
-  gulp.watch(['dest/*.html', 'dest/js/**/*']).on('change', browserSync.reload);
+  gulp.watch(['dist/*.html', 'dist/js/**/*']).on('change', browserSync.reload);
 });
