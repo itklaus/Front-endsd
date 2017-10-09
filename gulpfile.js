@@ -39,7 +39,7 @@ gulp.task('pug', () => {
 });
 
 gulp.task('sass', function () {
-  return gulp.src('src/sass/**/*.sass')
+  return gulp.src('src/sass/master.sass')
     .pipe(sass().on("error", notify.onError()))
     .pipe(autoprefixer(['last 14 versions']))
     .pipe(cleanCSS()) 
@@ -61,7 +61,7 @@ gulp.task('default', ['es6', 'pug', 'sass', 'imgmin'], () => {
     notify: false
   });
   gulp.watch('src/**/*.js', ['js']);
-  gulp.watch('src/sass/master.sass', ['sass']);
+  gulp.watch(['src/sass/**/*.sass', 'src/sass/**/*.scss'], ['sass']);
   gulp.watch("src/*.pug", ['pug']);
   gulp.watch("src/img/**/*", ['imgmin']);
   gulp.watch('dist/*.html').on('change', browserSync.reload);
