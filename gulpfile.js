@@ -7,13 +7,26 @@ const notify = require("gulp-notify");
 const sass = require('gulp-sass'); 
 const autoprefixer = require('gulp-autoprefixer');
 const cleanCSS = require('gulp-clean-css');
+const uglify = require('gulp-uglify');
+const concat = require('gulp-concat');
 
 gulp.task('es6', () => {
   return gulp.src('src/js/es6.js')
     .pipe(babel().on("error", notify.onError()))
-    .pipe(rename('../dist/js/master.js'))
-    .pipe(gulp.dest('src'))
-    .pipe(browserSync.stream());
+    .pipe(concat('master.min.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest('src/js'))
+});
+
+gulp.task('js', ['es6'], function() {
+	return gulp.src([
+		'src/libs/jquery/dist/jquery.min.js',
+		'src/js/master.min.js',
+	])
+	.pipe(concat('master.min.js'))
+	.pipe(uglify())
+	.pipe(gulp.dest('dist/js'))
+	.pipe(browserSync.stream());
 });
 
 gulp.task('pug', () => {
@@ -41,7 +54,7 @@ gulp.task('default', ['es6', 'pug', 'sass'], () => {
     },
     notify: false
   });
-  gulp.watch('src/**/*.js', ['es6']);
+  gulp.watch('src/**/*.js', ['js']);
   gulp.watch('src/sass/master.sass', ['sass']);
   gulp.watch("src/*.pug", ['pug']);
   gulp.watch('dist/*.html').on('change', browserSync.reload);
