@@ -9,6 +9,7 @@ const autoprefixer = require('gulp-autoprefixer');
 const cleanCSS = require('gulp-clean-css');
 const uglify = require('gulp-uglify');
 const concat = require('gulp-concat');
+const imagemin = require('gulp-imagemin');
 
 gulp.task('es6', () => {
   return gulp.src('src/js/es6.js')
@@ -47,6 +48,12 @@ gulp.task('sass', function () {
     .pipe(browserSync.stream());
 });
 
+gulp.task('imgmin', function() {
+	return gulp.src('src/img/**/*')
+	.pipe(cache(imagemin()))
+	.pipe(gulp.dest('dist/img')); 
+});
+
 gulp.task('default', ['es6', 'pug', 'sass'], () => {
   browserSync.init({
     server: {
@@ -57,5 +64,6 @@ gulp.task('default', ['es6', 'pug', 'sass'], () => {
   gulp.watch('src/**/*.js', ['js']);
   gulp.watch('src/sass/master.sass', ['sass']);
   gulp.watch("src/*.pug", ['pug']);
+  gulp.watch("src/img/**/*", ['imgmin']);
   gulp.watch('dist/*.html').on('change', browserSync.reload);
 });
