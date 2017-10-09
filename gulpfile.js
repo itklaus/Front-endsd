@@ -50,11 +50,10 @@ gulp.task('sass', function () {
 
 gulp.task('imgmin', function() {
 	return gulp.src('src/img/**/*')
-	.pipe(cache(imagemin()))
 	.pipe(gulp.dest('dist/img')); 
 });
 
-gulp.task('default', ['es6', 'pug', 'sass'], () => {
+gulp.task('default', ['es6', 'pug', 'sass', 'imgmin'], () => {
   browserSync.init({
     server: {
       baseDir: 'dist'
