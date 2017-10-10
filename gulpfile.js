@@ -23,6 +23,7 @@ gulp.task('js', ['es6'], function() {
 	return gulp.src([
 		'src/js/master.min.js',
 	])
+	.pipe(babel().on("error", notify.onError()))
 	.pipe(concat('master.min.js'))
 	.pipe(uglify())
 	.pipe(gulp.dest('dist/js'))
