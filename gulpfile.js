@@ -21,7 +21,6 @@ gulp.task('es6', () => {
 
 gulp.task('js', ['es6'], function() {
 	return gulp.src([
-		'src/libs/jquery/dist/jquery.min.js',
 		'src/js/master.min.js',
 	])
 	.pipe(concat('master.min.js'))
